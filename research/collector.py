@@ -3,7 +3,6 @@ from pathlib import Path
 
 import feedparser
 
-
 CONFIG_FILE = Path("config/rss_sources.json")
 OUTPUT_DIR = Path("output")
 OUTPUT_FILE = OUTPUT_DIR / "news.json"
@@ -18,7 +17,7 @@ def collect_news():
     articles = []
 
     for source in load_sources():
-        print(f"Collecting from {source['name']}...")
+        print(f"📰 Collecting from {source['name']}...")
 
         feed = feedparser.parse(source["url"])
 
@@ -35,12 +34,16 @@ def collect_news():
 
     OUTPUT_DIR.mkdir(exist_ok=True)
 
-    with open(OUTPUT_FILE, "w") as f:
-        json.dump(articles, f, indent=2)
+    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+        json.dump(articles, f, indent=2, ensure_ascii=False)
 
-    print(f"\nCollected {len(articles)} articles.")
-    print(f"Saved to {OUTPUT_FILE}")
+    print(f"\n✅ Collected {len(articles)} articles.")
+    print(f"✅ Saved to {OUTPUT_FILE}")
+
+
+def main():
+    collect_news()
 
 
 if __name__ == "__main__":
-    collect_news()
+    main()

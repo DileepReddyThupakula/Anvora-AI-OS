@@ -8,9 +8,9 @@ OUTPUT_FILE = Path("output/script.md")
 
 
 def main():
-    print("📝 Generating YouTube script...")
+    print("📝 Generating narration script...")
 
-    topic = json.loads(TOPIC_FILE.read_text())
+    topic = json.loads(TOPIC_FILE.read_text(encoding="utf-8"))
 
     title = topic.get("title", "")
     summary = topic.get("summary", "")
@@ -19,9 +19,9 @@ def main():
     link = topic.get("link", "")
 
     prompt = f"""
-You are an expert AI technology YouTube creator.
+You are an expert AI technology YouTube script writer.
 
-Create an engaging YouTube script based ONLY on the information below.
+Create a professional narration script using ONLY the information below.
 
 ==========================
 ARTICLE INFORMATION
@@ -46,40 +46,51 @@ Reference:
 
 Requirements:
 
-- Length: 700-900 words
-- Start with a powerful hook within the first 15 seconds.
+- Length: 500–700 words.
+- Start with a powerful hook in the first 15 seconds.
 - Explain the news in simple language.
 - Explain why this announcement matters.
-- Explain how it affects AI users, developers and businesses.
+- Explain how it affects AI users, developers, and businesses.
 - Mention future implications.
-- End with a strong conclusion.
-- Finish with a call to subscribe.
+- End with a memorable conclusion.
+- Finish with a natural call to subscribe.
 
-Rules:
+IMPORTANT RULES:
 
+- Output ONLY the narration.
+- Do NOT include scene directions.
+- Do NOT include camera directions.
+- Do NOT include text like:
+    [Opening Scene]
+    [Cut To]
+    Narrator:
+    Voiceover:
+    Music:
+    Fade In:
+- Do NOT use markdown formatting.
 - Do NOT invent facts.
-- If something is unknown, don't make it up.
-- Stay factual while keeping the script engaging.
-- Use a natural conversational YouTube style.
+- If information is missing, simply don't mention it.
+- Write naturally as if a professional YouTube presenter is speaking directly to the audience.
 """
 
     script = ask(
         system="""
 You are one of the world's best AI YouTube script writers.
 
-Your scripts should be:
+Your narration should be:
+- Natural
 - Professional
-- Accurate
 - Engaging
+- Factually accurate
 - Easy for beginners to understand
-- Suitable for narration
+- Ready to be converted directly into speech
 """,
         user=prompt,
         model="writer",
     )
 
     OUTPUT_FILE.parent.mkdir(exist_ok=True)
-    OUTPUT_FILE.write_text(script, encoding="utf-8")
+    OUTPUT_FILE.write_text(script.strip(), encoding="utf-8")
 
     print(f"✅ Script saved to {OUTPUT_FILE}")
 

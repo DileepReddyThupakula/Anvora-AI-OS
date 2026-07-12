@@ -17,7 +17,7 @@ def ask(system: str, user: str, model: str = "fast") -> str:
         ],
         options={
             "temperature": 0.3,
-            "num_predict": 800,
+            "num_predict": 1600,
         },
     )
 
