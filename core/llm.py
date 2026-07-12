@@ -1,8 +1,10 @@
 from ollama import chat
 
+from core.config import FAST_MODEL, WRITER_MODEL
+
 MODELS = {
-    "fast": "llama3.2:3b",
-    "writer": "qwen3:8b",
+    "fast": FAST_MODEL,
+    "writer": WRITER_MODEL,
 }
 
 
