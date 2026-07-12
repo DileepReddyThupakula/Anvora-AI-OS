@@ -7,3 +7,4 @@ __pycache__/
 uploads/
 cache/
 logs/
+.webui_secret_key
