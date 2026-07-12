@@ -8,3 +8,4 @@ uploads/
 cache/
 logs/
 .webui_secret_key
+output/
