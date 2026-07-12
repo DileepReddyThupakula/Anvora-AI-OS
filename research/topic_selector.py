@@ -4,24 +4,44 @@ from pathlib import Path
 from core.llm import ask
 
 INPUT = Path("output/news.json")
+OUTPUT = Path("output/topic.json")
 
-articles = json.loads(INPUT.read_text())
 
-titles = []
+def main():
+    articles = json.loads(INPUT.read_text())
 
-for article in articles[:20]:
-    title = article.get("title", "").strip()
-    if title:
-        titles.append(title)
+    titles = []
 
-prompt = "Choose the 5 best AI news topics for a YouTube channel.\n\n"
+    for article in articles[:20]:
+        title = article.get("title", "").strip()
+        if title:
+            titles.append(title)
 
-for i, title in enumerate(titles, start=1):
-    prompt += f"{i}. {title}\n"
+    prompt = """Choose ONE AI news topic that has the highest YouTube potential.
 
-result = ask(
-    "You are an AI YouTube editor. Choose the five topics most likely to attract viewers. Explain briefly why each one is worth covering.",
-    prompt,
-)
+Return ONLY the title.
 
-print(result)
+News:
+"""
+
+    for i, title in enumerate(titles, start=1):
+        prompt += f"{i}. {title}\n"
+
+    best_title = ask(
+        system="You are an experienced YouTube AI content strategist.",
+        user=prompt,
+        model="fast",
+    ).strip()
+
+    topic = {
+        "title": best_title
+    }
+
+    OUTPUT.write_text(json.dumps(topic, indent=4))
+
+    print("✅ Saved:", OUTPUT)
+    print("🎯 Selected Topic:", best_title)
+
+
+if __name__ == "__main__":
+    main()
