@@ -1,0 +1,16 @@
+{
+    "sources": [
+      {
+        "name": "OpenAI",
+        "url": "https://openai.com/news/rss.xml"
+      },
+      {
+        "name": "Hugging Face",
+        "url": "https://huggingface.co/blog/feed.xml"
+      },
+      {
+        "name": "Google DeepMind",
+        "url": "https://deepmind.google/discover/blog/rss.xml"
+      }
+    ]
+  }
